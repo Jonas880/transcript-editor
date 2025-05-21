@@ -1,0 +1,494 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+h1, h2, h3 {
+    color: #343a40;
+}
+
+h1 { text-align: center; margin-bottom: 30px; font-weight: 600; }
+h2 { margin-top: 40px; border-bottom: 1px solid #dee2e6; padding-bottom: 5px;}
+
+.container {
+    max-width: 900px; /* Slightly narrower for better readability */
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.setup-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    /* Removed border-bottom for cleaner look */
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 30px;
+    align-items: start;
+}
+
+.upload-group label,
+.options-group label,
+.options-group p {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500; /* Slightly lighter weight */
+    color: #495057;
+}
+
+.upload-group input[type="file"] {
+    display: block;
+    margin-bottom: 5px; /* Reduced margin */
+    width: calc(100% - 18px); /* Adjust for padding */
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* Style for file info display */
+.file-info {
+    display: block;
+    font-size: 0.85em;
+    color: #6c757d;
+    margin-bottom: 15px;
+    min-height: 1.2em; /* Prevent layout shift */
+}
+
+.options-group input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+.options-group label[for="fix-typos"] {
+    cursor: pointer; /* Make the label clickable */
+    display: inline-flex; /* Align checkbox and text */
+    align-items: center;
+}
+.options-group input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #0d6efd; /* Modern checkbox color */
+    cursor: pointer;
+}
+.options-group button#process-button {
+    padding: 10px 20px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 15px;
+}
+.options-group button#process-button:hover {
+    background-color: #0b5ed7;
+}
+.options-group button#process-button:active {
+    transform: scale(0.98);
+}
+.options-group button#process-button:disabled {
+     background-color: #adb5bd;
+     cursor: not-allowed;
+}
+
+/* Loading Indicator Styles */
+#loading-indicator {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.spinner {
+    border: 3px solid #f3f3f3; /* Light grey */
+    border-top: 3px solid #0d6efd; /* Blue */
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Removed .usage-info styles */
+
+hr { border: 0; border-top: 1px solid #dee2e6; margin: 0; }
+
+#results-section h2 {
+    margin-bottom: 15px;
+}
+
+/* Styling for results info line */
+.results-info {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+/* Segment Styling (Structure from JS) */
+#segments-container {
+    margin-top: 20px;
+}
+
+.segment {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    position: relative; /* Needed for absolute positioning of merge button */
+    padding-right: 40px; /* Space for the merge button */
+}
+
+.segment:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0; /* Remove padding for the last item */
+}
+
+/* Style for the currently selected segment */
+.segment:focus,
+.segment.active {
+    border-left-color: #0d6efd; /* Blue */
+    background-color: #e7f1ff; /* Light blue background */
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+/* Style for highlighted segments */
+.segment.highlighted {
+    border-left-color: #ffc107; /* Yellow */
+    background-color: #fff9e6; /* Light yellow background */
+}
+
+/* Combine active and highlighted */
+.segment.active.highlighted {
+     border-left-color: #fd7e14; /* Orange for active+highlight */
+     background-color: #fff3cd;
+     box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.35);
+}
+
+.segment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px; /* Reduced margin */
+    font-size: 0.85em;
+    color: #6c757d;
+    /* Removed gap, as highlight button moved */
+    /* gap: 10px; */
+}
+
+.segment-timestamps {
+    font-family: monospace;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.segment-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Highlight Button Style */
+.highlight-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.3em; /* Make star bigger */
+    cursor: pointer;
+    color: #adb5bd; /* Grey star initially */
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+.highlight-button:hover {
+    color: #ffc107; /* Yellow on hover */
+}
+/* Apply .is-highlighted directly instead of relying on parent */
+.highlight-button.is-highlighted { /* Style when highlighted */
+    color: #ffc107;
+}
+
+.segment-gpt-error {
+    color: #dc3545;
+    font-weight: bold;
+    cursor: help;
+    font-size: 1.2em; /* Slightly larger warning */
+}
+
+/* NEW styles for the native controls container */
+.segment-controls-native {
+    display: flex; /* Changed from column */
+    /* flex-direction: column; */ /* Removed */
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Adjusted gap for items */
+    margin-top: 5px; /* Space below meta */
+}
+
+/* Style the native audio player */
+.segment-controls-native audio {
+    height: 30px; /* Reduced height */
+    flex-grow: 1; /* Allow player to take available space */
+    min-width: 150px; /* Prevent player from becoming too small */
+    /* max-width: 100%; */ /* Removed max-width */
+    /* No margin-top needed here, handled by parent gap */
+}
+
+/* Added margin to highlight button for spacing */
+.segment-controls-native .highlight-button {
+    margin-left: 5px; /* Add some space to its left */
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+.play-segment-button {
+    /* grid-area: play; */ /* Removed as no longer in grid */
+    background: none;
+    border: 1px solid #ced4da;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.play-segment-button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+.play-segment-button.playing {
+    background-color: #cfe2ff;
+    border-color: #9ec5fe;
+}
+
+.segment textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: inherit; /* Use body font */
+    font-size: 1em;
+    line-height: 1.5; /* Ensure consistent line height */
+    margin-top: 8px;
+    /* resize: vertical; */ /* REMOVED - Let JS handle height */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    min-height: 60px; /* Existing min-height */
+    max-height: 400px; /* Existing max-height */
+    overflow-y: auto; /* Ensure scrollbar appears if content exceeds max-height */
+}
+.segment textarea:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* START Commenting out entire custom controls section */
+/*
+/* Custom Progress Bar Styling */
+.custom-progress-bar {
+    grid-area: prog;
+    width: 100%;
+    height: 8px; /* Slightly taller for easier interaction */
+    background-color: #e9ecef; /* Bar background */
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative; /* Needed for absolute positioning of thumb */
+    display: none; /* Hide initially */
+    margin: 0 5px; /* Add small horizontal margin */
+}
+.segment.active .custom-progress-bar {
+    display: block; /* Show for active segment */
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #0d6efd; /* Fill color */
+    border-radius: 4px;
+    width: 0%; /* Start empty, updated by JS */
+    transition: width 0.05s linear; /* Smooth transition for non-dragging updates */
+}
+
+.progress-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%; /* Start at beginning, updated by JS */
+    width: 14px;
+    height: 14px;
+    background-color: #0b5ed7; /* Thumb color slightly darker */
+    border-radius: 50%;
+    transform: translate(-50%, -50%); /* Center the thumb on the line */
+    pointer-events: none; /* Prevent thumb from interfering with bar clicks */
+    display: none; /* Hide initially */
+    transition: left 0.05s linear; /* Smooth transition for non-dragging updates */
+}
+.segment.active .progress-thumb {
+    display: block; /* Show thumb for active segment */
+}
+
+/* Style for when dragging */
+.custom-progress-bar.dragging .progress-fill,
+.custom-progress-bar.dragging .progress-thumb {
+    transition: none; /* Disable transition during drag for instant feedback */
+}
+
+/* Time Display Styling */
+.segment-time-display {
+    grid-area: time;
+    font-family: monospace;
+    font-size: 0.85em;
+    color: #6c757d;
+    white-space: nowrap;
+    display: none; /* Hide initially */
+}
+.segment.active .segment-time-display {
+     display: block; /* Show for active segment */
+}
+*/
+/* END Commenting out entire custom controls section */
+
+/* Export Controls */
+.export-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+.export-controls label {
+    font-weight: 500;
+}
+.export-controls select {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+#export-button {
+    padding: 8px 18px;
+    background-color: #198754; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+#export-button:hover:not(:disabled) {
+    background-color: #157347;
+}
+#export-button:disabled {
+     background-color: #adb5bd;
+     cursor: not-allowed;
+}
+
+#export-filename {
+    /* Inherits .caption style */
+}
+
+/* Comparison Expander (Minor tweak) */
+details > summary {
+    cursor: pointer;
+    font-weight: 500;
+    padding: 8px 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    transition: background-color 0.2s ease;
+}
+details > summary:hover {
+    background-color: #e9ecef;
+}
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.comparison-grid textarea {
+    width: calc(100% - 22px); /* Consistent padding adjustment */
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-family: monospace;
+    background-color: #e9ecef; /* Slightly different background */
+    resize: vertical;
+    min-height: 150px;
+}
+
+/* Status Messages */
+.status {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    font-size: 0.95em;
+}
+.status.info { background-color: #cfe2ff; color: #052c65; border-color: #b6d4fe; }
+.status.success { background-color: #d1e7dd; color: #0f5132; border-color: #badbcc; }
+.status.error { background-color: #f8d7da; color: #842029; border-color: #f5c2c7; }
+/* Removed .status.loading as we have #loading-indicator now */
+
+.caption {
+    font-size: 0.85em;
+    color: #6c757d;
+    margin-top: 5px;
+    display: block; /* Ensure it takes block space */
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+#controls {
+    padding: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#editor-container {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack children vertically */
+}
+
+#file-operations {
+    margin-top: 10px;
+    padding-top: 10px;
+    /* border-top: 1px solid #eee; */ /* Remove this line */
+    display: flex;
+    gap: 10px;
+    align-items: center; /* Vertically align items in the center */
+}
+
+#selected-segment-actions {
+    margin-top: 15px;
+    padding-top: 15px;
+   /* border-top: 1px solid #ccc; */ /* Remove this line */
+    display: flex; /* Use flexbox to align buttons */
+    gap: 10px; /* Add space between buttons */
+}

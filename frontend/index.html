@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎙️ Transcript Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🎙️ Transcript Editor</h1>
+
+    <div class="container">
+        <div id="error-message" class="status error" style="display: none;"></div>
+
+        <div class="setup-section">
+            <div class="controls-grid">
+                <div class="upload-group">
+                    <label for="transcript-file">1. Transcript File</label>
+                    <input type="file" id="transcript-file" accept=".txt" aria-describedby="transcript-file-info">
+                    <span id="transcript-file-info" class="file-info">Please select a .txt file</span>
+
+                    <label for="audio-file">2. Audio File</label>
+                    <input type="file" id="audio-file" accept=".mp3,.m4a,.wav,audio/*" aria-describedby="audio-file-info">
+                    <span id="audio-file-info" class="file-info">Please select an audio file</span>
+                </div>
+                <div class="options-group">
+                    <p><strong>Options:</strong></p>
+                    <label for="target-words">Words/Segment (~):</label>
+                    <input type="number" id="target-words" value="60" min="10" max="500" step="5" title="Approximate number of words in each audio/text block.">
+
+                    <label for="fix-typos" title="Uses AI (GPT-4o) to correct spelling/grammar in each segment. May increase processing time and cost.">
+                        <input type="checkbox" id="fix-typos"> Fix Typos (AI)
+                    </label>
+
+                    <label for="translate-norwegian" title="Uses AI to translate the text to Norwegian. May increase processing time and cost.">
+                        <input type="checkbox" id="translate-norwegian"> Translate
+                    </label>
+
+                    <button id="process-button" type="button">Process Files</button>
+                    <div id="loading-indicator" style="display: none;">
+                        <div class="spinner"></div>
+                        <span>Processing...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="results-section" style="display: none;">
+            <h2 id="segments-header">Transcript Segments</h2>
+            <div class="results-info">
+                 <span id="editor-status" class="caption"></span>
+                 <span id="target-words-display" class="caption"></span>
+            </div>
+
+            <div id="segments-container">
+                <!-- Segments will be dynamically inserted here by script.js -->
+            </div>
+            <hr>
+
+            <h2>Export Transcript</h2>
+            <div class="export-controls">
+                 <label for="export-format">Format:</label>
+                 <select id="export-format">
+                    <option value="txt">Plain Text (.txt)</option>
+                    <option value="timestamped">Timestamped Text (.txt)</option>
+                 </select>
+                <button id="export-button" type="button" disabled>Export</button>
+            </div>
+             <p id="export-filename" class="caption"></p>
+
+            <details id="comparison-expander" style="margin-top: 20px;">
+                <summary>Show Original vs Edited Comparison</summary>
+                <div class="comparison-grid">
+                    <div>
+                        <h3>Original (Joined)</h3>
+                        <textarea id="original-text-preview" rows="10" readonly></textarea>
+                    </div>
+                    <div>
+                        <h3>Current Edited (Joined)</h3>
+                        <textarea id="edited-text-preview" rows="10" readonly></textarea>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+    </div>
+
+    <footer>
+        Transcript Editor v1.0
+    </footer>
+
+    <!-- Global Audio Player (Hidden, controlled by JS) -->
+    <!-- <audio id="audio-player" style="display: none;"></audio> -->
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard] # ASGI server
+python-multipart  # For file uploads
+openai
+pydub
+python-dotenv     # To load API key from .env
+requests          # OpenAI client dependency
+aiofiles          # For async file operations
+audioop-lts; python_version>='3.13'
